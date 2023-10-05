@@ -10,6 +10,27 @@ pub struct Point {
     pub b: i64,
 }
 
+pub struct ECC {
+    pub a: i64,
+    pub b: i64,
+}
+
+impl ECC {
+    pub fn new(a: &i64, b: &i64) -> ECC {
+        ECC { a: *a, b: *b }
+    }
+}
+
+pub trait PointTrait {
+    fn eleptic_point(self: &Self, x: &i64, y: &i64) -> Point;
+}
+
+impl PointTrait for ECC {
+    fn eleptic_point(self: &Self, x: &i64, y: &i64) -> Point {
+        assert_eq!(y.pow(2), x.pow(3) + self.a * x + self.b, "This is not a point on an eleptic curve");
+        Point { x: *x, y: *y, a: self.a, b: self.b }   
+    }
+}
 
 impl Point {
     pub fn new(x: &i64, y: &i64, a: &i64, b: &i64) -> Point {
